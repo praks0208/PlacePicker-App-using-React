@@ -8,7 +8,7 @@ import logoImg from './assets/logo.png';
 import { sortPlacesByDistance } from './loc.js';
 
 const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
-const storedPlaces = storedIds.map(id => AVAILABLE_PLACES.find((place)=> place.id === id)
+const storedPlaces = storedIds.map(id => AVAILABLE_PLACES.find((place) => place.id === id)
 );
 
 function App() {
@@ -18,22 +18,22 @@ function App() {
   const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
 
 
-useEffect(()=>{
-  navigator.geolocation.getCurrentPosition((position)=>{
-    const sortedPlaces = sortPlacesByDistance(
-      AVAILABLE_PLACES, 
-      position.coords.latitude, 
-      position.coords.longitude 
-    );
-  
-    setAvailablePlaces(sortedPlaces);
-  });
-}, []);
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const sortedPlaces = sortPlacesByDistance(
+        AVAILABLE_PLACES,
+        position.coords.latitude,
+        position.coords.longitude
+      );
+
+      setAvailablePlaces(sortedPlaces);
+    });
+  }, []);
 
 
 
   function handleStartRemovePlace(id) {
-   setModalIsOpen(true);
+    setModalIsOpen(true);
     selectedPlace.current = id;
   }
 
@@ -51,10 +51,10 @@ useEffect(()=>{
     });
 
     const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
-    if(storedIds.indexOf(id) === -1){
+    if (storedIds.indexOf(id) === -1) {
       localStorage.setItem('selectedPlaces',
-      JSON.stringify([id,...storedIds])
-    );
+        JSON.stringify([id, ...storedIds])
+      );
     }
   }
 
@@ -65,17 +65,17 @@ useEffect(()=>{
     setModalIsOpen(false);
 
     const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
-    localStorage.setItem('selectedPlaces', JSON.stringify(storedIds.filter((id)=> id !== selectedPlace.current)) );
+    localStorage.setItem('selectedPlaces', JSON.stringify(storedIds.filter((id) => id !== selectedPlace.current)));
 
   }
 
   return (
     <>
-      <Modal open={modalIsOpen}>
-        <DeleteConfirmation
-          onCancel={handleStopRemovePlace}
-          onConfirm={handleRemovePlace}
-        />
+      <Modal open={modalIsOpen} >
+          <DeleteConfirmation
+            onCancel={handleStopRemovePlace}
+            onConfirm={handleRemovePlace}
+         />
       </Modal>
 
       <header>
